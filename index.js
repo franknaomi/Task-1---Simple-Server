@@ -118,17 +118,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/hello', async (req, res) => {
     const visitorName = req.query.visitor_name;
-    let clientIp = requestIp.getClientIp(req); 
+    let client_ip = requestIp.getClientIp(req); 
 
-    console.log(`Client IP: ${clientIp}`);
-    if (clientIp === '::1' || clientIp === '127.0.0.1') {
+    console.log(`Client IP: ${client_ip}`);
+    if (client_ip === '::1' || client_ip === '127.0.0.1') {
         console.log('Client IP is localhost, skipping geolocation and weather API calls');
         return res.status(400).json({ error: 'Cannot determine location for localhost IP' });
     }
 
     try {
 
-        const locationResponse = await axios.get(`https://ipapi.co/${clientIp}/json/`);
+        const locationResponse = await axios.get(`https://ipapi.co/${client_ip}/json/`);
         const locationData = locationResponse.data;
         console.log('Location Data:', locationData);
 
@@ -150,7 +150,7 @@ app.get('/api/hello', async (req, res) => {
         const temperature = weatherData.current.temp_c;
 
         res.json({
-            clientIp: clientIp,
+            client_ip: client_ip,
             location: location,
             greeting: `Hello, ${visitorName}!, the temperature is ${temperature} degrees Celsius in ${location}`
         });
