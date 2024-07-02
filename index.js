@@ -11,11 +11,6 @@ app.get('/api/hello', async (req, res) => {
     const visitorName = req.query.visitor_name;
     let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-    // This overrides localhost IP addresses with a default for testing
-    if (clientIp === '::1' || clientIp === '127.0.0.1') {
-        clientIp = '8.8.8.8';
-    }
-
     console.log(`Client IP: ${clientIp}`);
 
     try {
@@ -41,11 +36,11 @@ app.get('/api/hello', async (req, res) => {
 
         const temperature = weatherData.current.temp_c;
 
-        res.send(`
-            Client IP: ${clientIp}
-            Location: ${location}
-            Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
-        `);
+        res.json({
+            clientIp: clientIp,
+            location: location,
+            greeting: `Hello, ${visitorName}! The temperature is ${temperature} degrees Celsius in ${location}`
+        });
     } catch (error) {
         console.error('Error:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'An error occurred while processing your request' });
