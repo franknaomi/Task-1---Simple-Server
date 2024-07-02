@@ -39,7 +39,7 @@
 //         res.send(`
 //             Client IP: ${clientIp}
 //             Location: ${location}
-//             Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
+//             Greeting: Hello, ${visitorName}!, the temperature is ${temperature} degrees Celsius in ${location}
 //         `);
 //     } catch (error) {
 //         console.error('Error:', error.response ? error.response.data : error.message);
