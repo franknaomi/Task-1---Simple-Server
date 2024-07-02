@@ -41,7 +41,7 @@ app.get('/api/hello', async (req, res) => {
 
         const temperature = weatherData.current.temp_c;
 
-        res.send(`
+        res.json(`
             Client IP: ${clientIp}
             Location: ${location}
             Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
