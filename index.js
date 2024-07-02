@@ -109,6 +109,7 @@
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
+const requestIp = require('request-ip')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -117,7 +118,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/hello', async (req, res) => {
     const visitorName = req.query.visitor_name;
-    let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let clientIp = requestIp.getClientIp(req); 
 
     console.log(`Client IP: ${clientIp}`);
     if (clientIp === '::1' || clientIp === '127.0.0.1') {
@@ -163,3 +164,6 @@ app.get('/api/hello', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+
+
