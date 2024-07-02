@@ -1,0 +1,16 @@
+{
+  "name": "task-1---server-app",
+  "version": "1.0.0",
+  "description": "A basic web server that responds with the client's name, loctaion and location's temperature",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Frank Naomi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
