@@ -36,11 +36,11 @@ app.get('/api/hello', async (req, res) => {
 
         const temperature = weatherData.current.temp_c;
 
-        res.json({
-            clientIp: clientIp,
-            location: location,
-            greeting: `Hello, ${visitorName}! The temperature is ${temperature} degrees Celsius in ${location}`
-        });
+        res.send(`
+            Client IP: ${clientIp}
+            Location: ${location}
+            Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
+        `);
     } catch (error) {
         console.error('Error:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'An error occurred while processing your request' });
