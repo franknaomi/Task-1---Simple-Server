@@ -8,12 +8,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/hello', async (req, res) => {
-    const clientName = req.query.client_name;
+    const visitorName = req.query.visitor_name;
     let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-    //This overrides localhost IP addresses with a default
+    // This overrides localhost IP addresses with a default for testing
     if (clientIp === '::1' || clientIp === '127.0.0.1') {
-        clientIp = '8.8.8.8'; 
+        clientIp = '8.8.8.8';
     }
 
     console.log(`Client IP: ${clientIp}`);
@@ -26,10 +26,10 @@ app.get('/api/hello', async (req, res) => {
         const location = locationData.city || locationData.region || 'Unknown';
 
         if (location === 'Unknown') {
-            res.status(400).send('Could not determine location');
+            res.status(400).json({ error: 'Could not determine location' });
             return;
         }
-        
+
         const weatherApiKey = process.env.API_KEY;
         if (!weatherApiKey) {
             throw new Error('Weather API key is missing in environment variables');
@@ -41,14 +41,15 @@ app.get('/api/hello', async (req, res) => {
 
         const temperature = weatherData.current.temp_c;
 
-        res.send(`
-            Client IP: ${clientIp}
-            Location: ${location}
-            Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
-        `);
+        res.json({
+            clientIp: clientIp,
+            location: location,
+            greeting: `Hello, ${visitorName}!`,
+            temperature: `The temperature is ${temperature} degrees Celsius in ${location}`
+        });
     } catch (error) {
         console.error('Error:', error.response ? error.response.data : error.message);
-        res.status(500).send('An error occurred while processing your request');
+        res.status(500).json({ error: 'An error occurred while processing your request' });
     }
 });
 
