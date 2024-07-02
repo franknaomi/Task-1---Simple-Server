@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/hello', async (req, res) => {
-    const clientName = req.query.client_name;
+    const visitorName = req.query.visitor_name;
     let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     //This overrides localhost IP addresses with a default
@@ -44,7 +44,7 @@ app.get('/api/hello', async (req, res) => {
         res.send(`
             Client IP: ${clientIp}
             Location: ${location}
-            Greeting: Hello, ${clientName}!, the temperature is ${temperature} degrees Celsius in ${location}
+            Greeting: Hello, ${visitorName}!, the temperature is ${temperature} degrees Celsius in ${location}
         `);
     } catch (error) {
         console.error('Error:', error.response ? error.response.data : error.message);
